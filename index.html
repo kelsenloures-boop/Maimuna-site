@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfólio - Adila Maimuna</title>
+<style>
+/* Corpo e fundo extravagante */
+body {
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(-45deg, #ff69b4, #ff1493, #8a2be2, #ff69b4);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color:white;
+}
+
+/* Container central */
+.container {
+    text-align:center;
+    padding:50px;
+    border-radius:30px;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    animation: fadeIn 2s ease;
+}
+
+/* Título e subtítulo */
+h1 {
+    font-size:3rem;
+    margin-bottom:20px;
+    text-shadow: 3px 3px 15px rgba(0,0,0,0.5);
+}
+p {
+    font-size:1.2rem;
+    margin-bottom:50px;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+}
+
+/* Botões extravagantes */
+.menu-btn {
+    display:block;
+    margin:20px auto;
+    padding:20px 60px;
+    font-size:1.4rem;
+    font-weight:bold;
+    color:white;
+    text-decoration:none;
+    border-radius:50px;
+    background: linear-gradient(45deg, #ff1493, #ff69b4);
+    box-shadow: 0 10px 25px rgba(255,20,147,0.5), 0 0 15px rgba(255,105,180,0.5);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+.menu-btn::before {
+    content:'';
+    position:absolute;
+    top:0; left:-75%;
+    width:50%;
+    height:100%;
+    background: rgba(255,255,255,0.2);
+    transform: skewX(-25deg);
+    transition: all 0.5s ease;
+}
+.menu-btn:hover::before {
+    left:125%;
+}
+.menu-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 15px 35px rgba(255,20,147,0.7), 0 0 25px rgba(255,105,180,0.6);
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {opacity:0; transform: translateY(-30px);}
+    to {opacity:1; transform: translateY(0);}
+}
+@keyframes gradientBG {
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
+}
+
+/* Responsivo */
+@media(max-width:600px){
+    h1 {font-size:2rem;}
+    p {font-size:1rem;}
+    .menu-btn {padding:15px 40px; font-size:1.2rem;}
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>✨ Bem-vinda ao Meu Portfólio ✨</h1>
+    <p>Explore meu CV, minha Galeria e entre em contato comigo!</p>
+    <a href="curriculo2.html" class="menu-btn">📄 Currículo</a>
+    <a href="my galerie.html" class="menu-btn">🖼 Galeria</a>
+    <a href="Formulario Adila.html" class="menu-btn">✉ Contato</a>
+</div>
+</body>
+</html>

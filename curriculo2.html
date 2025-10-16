@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currículo Interativo</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a1a1a, #2c003e);
+      color: #fff;
+      transition: all 0.5s ease;
+    }
+
+    /* === DARK MODE === */
+    body.dark-mode {
+      background: linear-gradient(135deg, #f4f4f4, #e4e4e4);
+      color: #222;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(90deg, #ff2d95, #ff66b3);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 0 20px rgba(255,45,149,0.5);
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      text-shadow: 0 0 10px #fff, 0 0 20px #ff2d95;
+    }
+
+    header p { font-size: 1.2em; margin-top: 10px; }
+
+    .profile-pic {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      object-fit: cover;
+      box-shadow: 0 0 20px #ff2d95, 0 0 40px #ff66b3;
+      margin-bottom: 20px;
+    }
+
+    nav { margin-top: 15px; }
+    nav a {
+      text-decoration: none;
+      margin: 0 8px;
+      padding: 10px 18px;
+      border-radius: 25px;
+      background: #fff;
+      color: #ff2d95;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      background: #ff2d95; color: #fff;
+      box-shadow: 0 0 10px #ff2d95, 0 0 20px #ff66b3;
+    }
+
+    .section {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.05);
+      margin-top: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 45, 149, 0.4);
+    }
+
+    body.dark-mode .section {
+      background: rgba(0,0,0,0.05);
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      border-bottom: 2px solid #ff2d95;
+      display: inline-block;
+      padding-bottom: 5px;
+      margin-bottom: 20px;
+    }
+
+    .skills span {
+      display: inline-block;
+      margin: 5px;
+      padding: 8px 15px;
+      border-radius: 20px;
+      background: #ff66b3;
+      color: white;
+      box-shadow: 0 0 10px #ff2d95;
+      transition: 0.3s;
+    }
+    .skills span:hover {
+      background: #fff; color: #ff2d95;
+      box-shadow: 0 0 15px #fff, 0 0 25px #ff2d95;
+    }
+
+    .lingua { margin-bottom: 15px; }
+    .lingua span { font-weight: bold; display: block; margin-bottom: 5px; }
+
+    .barra {
+      background: #1a1a1a;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 12px;
+      box-shadow: 0 0 10px #ff2d95 inset;
+    }
+
+    body.dark-mode .barra { background: #ddd; box-shadow: inset 0 0 5px #aaa; }
+
+    .nivel {
+      height: 100%;
+      background: linear-gradient(90deg, #ff2d95, #ff66b3);
+      box-shadow: 0 0 10px #ff2d95, 0 0 20px #ff66b3;
+      transition: width 1s ease-in-out;
+    }
+
+    .contact-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+
+    .btn-contact {
+      text-decoration: none;
+      padding: 12px 25px;
+      border-radius: 25px;
+      background: #ff2d95;
+      color: #fff;
+      font-weight: bold;
+      transition: 0.3s;
+      box-shadow: 0 0 10px #ff2d95, 0 0 20px #ff66b3;
+      min-width: 160px;
+      text-align: center;
+    }
+    .btn-contact:hover {
+      background: #fff; color: #ff2d95;
+      box-shadow: 0 0 15px #fff, 0 0 25px #ff2d95;
+    }
+
+    .dark-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 18px;
+      border-radius: 50%;
+      border: none;
+      background: #ff2d95;
+      color: white;
+      font-size: 1.2em;
+      cursor: pointer;
+      box-shadow: 0 0 10px #ff2d95, 0 0 20px #ff66b3;
+      transition: 0.3s;
+    }
+    .dark-toggle:hover { transform: scale(1.1); }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #1a1a1a;
+      color: #aaa;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="Foto1.jpg.jpeg" alt="Foto de Perfil" class="profile-pic">
+    <h1>Adila Maimuna Enoque</h1>
+    <p>Programadora Web</p>
+    <nav>
+      <a href="#sobre">Sobre</a>
+      <a href="#formacao">Formação</a>
+      <a href="#experiencia">Experiência</a>
+      <a href="#habilidades">Habilidades</a>
+      <a href="#linguas">Línguas</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <section id="sobre" class="section">
+    <h2>Sobre Mim</h2>
+    <p>Sou apaixonada por tecnologia, programação e inovação. Busco sempre aprender e aplicar meus conhecimentos em novos projetos.</p>
+  </section>
+
+  <section id="formacao" class="section">
+    <h2>Formação Acadêmica</h2>
+    <ul>
+      <li><strong>Programação Web</strong> - ITC (2025)</li>
+      <li><strong>Ensino Técnico em Informática</strong> – ITC (2024)</li>
+      <li><strong>Curso de Eletricidade Industrial</strong> – ITC (2023)</li>
+      <li><strong>Ensino Secundário</strong> – ESHM (2020-2022)</li>
+    </ul>
+  </section>
+
+  <section id="experiencia" class="section">
+    <h2>Experiência</h2>
+    <ul>
+      <li><strong>Estágio – Compass Engenharia</strong>: montagem de tomadas, interruptores e iluminação.</li>
+      <li><strong>Montagem e manutenção de Circuitos Elétricos.</strong></li>
+    </ul>
+  </section>
+
+  <section id="habilidades" class="section skills">
+    <h2>Habilidades</h2>
+    <span>Java</span>
+    <span>HTML & CSS</span>
+    <span>Redes de Computadores</span>
+    <span>Banco de Dados</span>
+  </section>
+
+  <section id="linguas" class="section">
+    <h2>Línguas</h2>
+    <div class="lingua">
+      <span>Português</span>
+      <div class="barra"><div class="nivel" style="width: 100%;"></div></div>
+    </div>
+    <div class="lingua">
+      <span>Inglês</span>
+      <div class="barra"><div class="nivel" style="width: 60%;"></div></div>
+    </div>
+    <div class="lingua">
+      <span>Espanhol</span>
+      <div class="barra"><div class="nivel" style="width: 40%;"></div></div>
+    </div>
+  </section>
+
+  <section id="contacto" class="section">
+    <h2>Contacto</h2>
+    <p>Email: adilamaimuna12@gmail.com</p>
+    <p>Telefone: +258 873812850</p>
+    <p>Localização: Maputo, Moçambique</p>
+
+    <div class="contact-buttons">
+      <a href="mailto:adilamaimuna12@gmail.com" class="btn-contact">📧 Email</a>
+      <a href="https://wa.me/258873812850" target="_blank" class="btn-contact">💬 WhatsApp</a>
+      <a href="#" onclick="baixarPDF()" class="btn-contact">📥 Baixar CV</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Adila Maimuna Enoque – Todos os direitos reservados.</p>
+  </footer>
+
+  <!-- Botão Dark Mode -->
+  <button class="dark-toggle" onclick="toggleDark()">🌗</button>
+
+  <script>
+    function toggleDark() {
+      document.body.classList.toggle("dark-mode");
+    }
+
+    function baixarPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.text("Currículo - Adila Maimuna Enoque", 20, 20);
+      doc.text("Email: adilamaimuna12@gmail.com | Telefone: +258 873812850", 20, 40);
+      doc.text("Localização: Maputo, Moçambique", 20, 50);
+      doc.text("=== Formação ===", 20, 70);
+      doc.text("Programação Web - ITC (2025)", 20, 80);
+      doc.text("Ensino Técnico em Informática - ITC (2024)", 20, 90);
+      doc.text("Eletricidade Industrial - ITC (2023)", 20, 100);
+      doc.text("Ensino Secundário - ESHM (2020-2022)", 20, 110);
+      doc.text("=== Experiência ===", 20, 130);
+      doc.text("Estágio – Compass Engenharia", 20, 140);
+      doc.text("Montagem e manutenção de Circuitos Elétricos", 20, 150);
+      doc.text("=== Habilidades ===", 20, 170);
+      doc.text("Java, HTML & CSS, Redes de Computadores, Banco de Dados", 20, 180);
+      doc.save("curriculo.pdf");
+    }
+  </script>
+</body>
+</html>
